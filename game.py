@@ -1,8 +1,9 @@
 from tkinter import *
 
+
 window = Tk()
-pressed = False
-strikes = 0
+
+charlist = []
 
 
 def start():
@@ -26,8 +27,6 @@ def check(letter):
     for char in charlist:
         if char[0] == letter and char[1] not in found_chars:
             found_chars.append(char[1])
-        else:
-            strikes += 1
             
 
 def make_string():
@@ -56,8 +55,10 @@ def check_win():
     return won
 
 def run_gui():
-    global pressed
-    pressed = True
+    inputletter = entrybox.get()
+    check(inputletter)
+    output.config(text = make_string())
+
 
         
     
@@ -68,13 +69,10 @@ button = Button(window, text= "Check", command= run_gui)
 button.grid(row= 0, column= 1)
 output = Label(window, text= "Waiting for output.")
 output.grid(row= 1, column= 0)
-strikesoutput = Label(window, text= "Strikes: ")
-strikesoutput.grid(row= 1, column= 1)
+
 
 start()
-while True:
-    check(input("Enter your letter: "))
-    print(make_string())
+
 
 
 window.mainloop()
