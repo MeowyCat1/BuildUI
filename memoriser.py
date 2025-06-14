@@ -1,18 +1,30 @@
 from tkinter import *
 from tkinter.filedialog import *
+from tkinter.messagebox import *
 
 window = Tk()
 window.title("Memoriser")
 
 def openfile():
-    pass
+    textfile = askopenfile(title= "Open a text file", filetypes= [("Text Files", ".txt")])
+    if textfile is not None:
+        listbox.delete(0, END)
+        textlines = textfile.readlines()
+        for textline in textlines:
+            listbox.insert(END, textline.strip())
+    else:
+        showwarning(title= "Error", message= "No file selected")
 
 def additem():
     listbox.insert(END, entrybox.get())
     entrybox.delete(0, END)
 
 def savefile():
-    pass
+    textfile = asksaveasfile(filetypes= [("Text Files", ".txt")], defaultextension= ".txt")
+    if textfile is None:
+       showwarning(title= "Error", message= "No file saved") 
+    for line in listbox.get(0, END):
+        textfile.writelines(f"{line}\n")
 
 def deleteitem():
     listbox.delete(listbox.curselection())
@@ -43,7 +55,7 @@ listbox.pack(side= LEFT)
 
 scrollbar.config(command= listbox.yview)
 
-list = ["1","2","3","Hello","Meow😺"]
+list = ["1","2","3","Hello","Meow"]
 
 for item in list:
     listbox.insert(END, item)
