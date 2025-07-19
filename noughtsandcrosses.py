@@ -42,16 +42,43 @@ class noughtsandcrosses:
             elif self.isboardfull():
                 msg.showinfo(title= "Game Over", message= "It's a tie!")
                 self.resetgame()
+            else:
+                if self.mode == "multi":
+                    self.currentplayer = "O" if self.currentplayer == "X" else "X"
+                elif self.mode == "single":
+                    self.window.after(500, self.computer_move)
+
+    def computer_move(self):
+        emptycells = [(r, c) for r in range(3) for c in range(3) if self.buttons[r][c]["text"] == ""]
+        if emptycells:
+            row,col = random.choice(emptycells)
+            self.buttons[row][col] = "O"
+            if self.checkwinner():
+                msg.showinfo(title= "Game Over", message= "Computer wins!")
+                self.resetgame()
+            elif self.isboardfull():
+                msg.showinfo(title= "Game Over", message= "It's a tie!")
+                self.resetgame()
 
     def checkwinner(self):
-        pass
+        for row in range(3):
+            if self.buttons[row][0]["text"] == self.buttons[row][1]["text"] == self.buttons[row][2]["text"] != "":
+                return True
+        for col in range(3):
+            if self.buttons[0][col]["text"] == self.buttons[1][col]["text"] == self.buttons[2][col]["text"] != "":
+                return True
+        if self.buttons[0][0]["text"] == self.buttons[1][1]["text"] == self.buttons[2][2]["text"] != "":
+            return True
+        if self.buttons[0][2]["text"] == self.buttons[1][1]["text"] == self.buttons[2][0]["text"] != "":
+            return True
+        return False
 
     def resetgame(self):
-        pass
-
+        for row in range(3):
+            for col in range(3):
+                self.buttons[row][col]["text"] == "X"
     def isboardfull(self):
-        pass
-
+        return all(self.buttons[row][col]["text"] != "" for row in range(3) for col in range(3))
 if __name__ == "__main__":
     window = tk.Tk()
     game = noughtsandcrosses(window)
