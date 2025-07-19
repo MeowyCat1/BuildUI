@@ -52,7 +52,7 @@ class noughtsandcrosses:
         emptycells = [(r, c) for r in range(3) for c in range(3) if self.buttons[r][c]["text"] == ""]
         if emptycells:
             row,col = random.choice(emptycells)
-            self.buttons[row][col] = "O"
+            self.buttons[row][col]["text"] = "O"
             if self.checkwinner():
                 msg.showinfo(title= "Game Over", message= "Computer wins!")
                 self.resetgame()
@@ -76,7 +76,8 @@ class noughtsandcrosses:
     def resetgame(self):
         for row in range(3):
             for col in range(3):
-                self.buttons[row][col]["text"] == "X"
+                self.buttons[row][col]["text"] = ""
+                self.currentplayer = "X" 
     def isboardfull(self):
         return all(self.buttons[row][col]["text"] != "" for row in range(3) for col in range(3))
 if __name__ == "__main__":
